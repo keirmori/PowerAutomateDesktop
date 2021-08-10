@@ -1,0 +1,9 @@
+Excel.LaunchAndOpen Path: $'''D:\\kei\\powerplatform\\powerautomate\\URL.xlsx''' Visible: True ReadOnly: False LoadAddInsAndMacros: False Instance=> ExcelInstance
+Excel.GetFirstFreeColumnRow Instance: ExcelInstance FirstFreeColumn=> FirstFreeColumn FirstFreeRow=> FirstFreeRow
+LOOP LoopIndex FROM 2 TO FirstFreeRow - 1 STEP 1
+    Excel.ReadCell Instance: ExcelInstance StartColumn: 1 StartRow: LoopIndex ReadAsText: False CellValue=> SiteName
+    Excel.ReadCell Instance: ExcelInstance StartColumn: 2 StartRow: LoopIndex ReadAsText: False CellValue=> URL
+    WebAutomation.LaunchEdge Url: URL WindowState: WebAutomation.BrowserWindowState.Normal ClearCache: False ClearCookies: False Timeout: 60 BrowserInstance=> Browser
+    WebAutomation.DataExtraction.TakeScreenshotSaveToFile BrowserInstance: Browser File: $'''D:\\kei\\powerplatform\\powerautomate\\ %SiteName% .png''' FileFormat: WebAutomation.FileFormat.Png
+    WebAutomation.CloseWebBrowser BrowserInstance: Browser
+END
